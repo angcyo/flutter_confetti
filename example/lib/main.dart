@@ -72,27 +72,37 @@ class _MainAppState extends State<MainApp> {
                       height: 280,
                       child: ConfettiBackdrop(),
                     ),
-                    CustomScrollView(
-                      slivers: [
-                        const SliverToBoxAdapter(child: _Header()),
-                        SliverPadding(
-                          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-                          sliver: SliverGrid(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: crossAxisCount,
-                              crossAxisSpacing: gap,
-                              mainAxisSpacing: gap,
-                              childAspectRatio: itemWidth / 320,
-                            ),
-                            delegate: SliverChildListDelegate(
-                              _demoCards(context),
-                              addAutomaticKeepAlives: true,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    Positioned(
+                        left: 300,
+                        top: 300,
+                        right: 0,
+                        bottom: 0,
+                        child: Overlay(initialEntries: [
+                          OverlayEntry(builder: (ctx) {
+                            return CustomScrollView(
+                              slivers: [
+                                const SliverToBoxAdapter(child: _Header()),
+                                SliverPadding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                                  sliver: SliverGrid(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: crossAxisCount,
+                                      crossAxisSpacing: gap,
+                                      mainAxisSpacing: gap,
+                                      childAspectRatio: itemWidth / 320,
+                                    ),
+                                    delegate: SliverChildListDelegate(
+                                      _demoCards(ctx),
+                                      addAutomaticKeepAlives: true,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          })
+                        ])),
                   ],
                 );
               },
@@ -113,10 +123,8 @@ class _MainAppState extends State<MainApp> {
           ///BEGIN
           Confetti.launch(
             context,
-            options: const ConfettiOptions(
-                particleCount: 100,
-                spread: 70,
-                y: 0.6),
+            options:
+                const ConfettiOptions(particleCount: 100, spread: 70, y: 0.6),
           );
 
           ///END
@@ -129,8 +137,7 @@ class _MainAppState extends State<MainApp> {
         onTap: () {
           ///BEGIN
           double randomInRange(double min, double max) {
-            return min +
-                Random().nextDouble() * (max - min);
+            return min + Random().nextDouble() * (max - min);
           }
 
           Confetti.launch(
@@ -138,8 +145,7 @@ class _MainAppState extends State<MainApp> {
             options: ConfettiOptions(
                 angle: randomInRange(55, 125),
                 spread: randomInRange(50, 70),
-                particleCount:
-                    randomInRange(50, 100).toInt(),
+                particleCount: randomInRange(50, 100).toInt(),
                 y: 0.6),
           );
 
@@ -153,16 +159,13 @@ class _MainAppState extends State<MainApp> {
         onTap: () {
           ///BEGIN
           double randomInRange(double min, double max) {
-            return min +
-                Random().nextDouble() * (max - min);
+            return min + Random().nextDouble() * (max - min);
           }
 
           int total = 60;
           int progress = 0;
 
-          Timer.periodic(
-              const Duration(milliseconds: 250),
-              (timer) {
+          Timer.periodic(const Duration(milliseconds: 250), (timer) {
             progress++;
 
             if (progress >= total) {
@@ -170,8 +173,7 @@ class _MainAppState extends State<MainApp> {
               return;
             }
 
-            int count =
-                ((1 - progress / total) * 50).toInt();
+            int count = ((1 - progress / total) * 50).toInt();
 
             Confetti.launch(
               context,
@@ -221,8 +223,7 @@ class _MainAppState extends State<MainApp> {
 
           shoot() {
             Confetti.launch(context,
-                options: options.copyWith(
-                    particleCount: 40, scalar: 1.2),
+                options: options.copyWith(particleCount: 40, scalar: 1.2),
                 particleBuilder: (index) => Star());
             Confetti.launch(context,
                 options: options.copyWith(
@@ -233,10 +234,8 @@ class _MainAppState extends State<MainApp> {
           }
 
           Timer(Duration.zero, shoot);
-          Timer(const Duration(milliseconds: 100),
-              shoot);
-          Timer(const Duration(milliseconds: 200),
-              shoot);
+          Timer(const Duration(milliseconds: 100), shoot);
+          Timer(const Duration(milliseconds: 200), shoot);
 
           ///END
         },
@@ -263,25 +262,20 @@ class _MainAppState extends State<MainApp> {
                   particleCount: 40,
                 ),
                 particleBuilder: (index) => Emoji(
-                    emoji: '🍄',
-                    textStyle:
-                        GoogleFonts.notoColorEmoji()));
+                    emoji: '🍄', textStyle: GoogleFonts.notoColorEmoji()));
             Confetti.launch(context,
                 options: options.copyWith(
                   particleCount: 10,
                 ),
                 particleBuilder: (index) => Emoji(
                       emoji: '️⚽',
-                      textStyle:
-                          GoogleFonts.notoColorEmoji(),
+                      textStyle: GoogleFonts.notoColorEmoji(),
                     ));
           }
 
           Timer(Duration.zero, shoot);
-          Timer(const Duration(milliseconds: 200),
-              shoot);
-          Timer(const Duration(milliseconds: 400),
-              shoot);
+          Timer(const Duration(milliseconds: 200), shoot);
+          Timer(const Duration(milliseconds: 400), shoot);
 
           ///END
         },
@@ -307,9 +301,7 @@ class _MainAppState extends State<MainApp> {
           ConfettiController? controller;
           bool isDone = false;
 
-          Timer.periodic(
-              const Duration(milliseconds: 100),
-              (timer) {
+          Timer.periodic(const Duration(milliseconds: 100), (timer) {
             progress++;
 
             if (progress >= total) {
@@ -334,8 +326,7 @@ class _MainAppState extends State<MainApp> {
                   randomX: true,
                   colors: colors,
                 ),
-                particleBuilder: (index) =>
-                    Snowflake(),
+                particleBuilder: (index) => Snowflake(),
                 onFinished: (overlayEntry) {
                   if (isDone) {
                     overlayEntry.remove();
@@ -370,9 +361,7 @@ class _MainAppState extends State<MainApp> {
           ConfettiController? controller2;
           bool isDone = false;
 
-          Timer.periodic(
-              Duration(milliseconds: frameTime),
-              (timer) {
+          Timer.periodic(Duration(milliseconds: frameTime), (timer) {
             progress++;
 
             if (progress >= total) {
@@ -432,10 +421,8 @@ class _MainAppState extends State<MainApp> {
 
           final controller = Confetti.launch(
             context,
-            options: const ConfettiOptions(
-                particleCount: 100,
-                spread: 70,
-                y: 0.6),
+            options:
+                const ConfettiOptions(particleCount: 100, spread: 70, y: 0.6),
           );
 
           /// call the kill method to kill the confetti
@@ -447,8 +434,7 @@ class _MainAppState extends State<MainApp> {
         },
         otherButton: OutlinedButton(
           onPressed: () {
-            for (var controller
-                in killableControllerList) {
+            for (var controller in killableControllerList) {
               controller.kill();
             }
           },
@@ -485,15 +471,12 @@ class _MainAppState extends State<MainApp> {
             borderRadius: BorderRadius.circular(DemoRadii.md),
             child: Confetti(
               controller: controller,
-              options: const ConfettiOptions(
-                  particleCount: 100,
-                  spread: 70,
-                  y: 1),
+              options:
+                  const ConfettiOptions(particleCount: 100, spread: 70, y: 1),
             ),
           ),
         ),
       ),
-
     ];
   }
 }
