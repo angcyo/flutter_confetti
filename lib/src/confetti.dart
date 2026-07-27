@@ -77,10 +77,12 @@ class Confetti extends StatefulWidget {
     OverlayEntry? overlayEntry;
     final controller = ConfettiController();
 
+    Size? size;
     overlayEntry = OverlayEntry(
         builder: (BuildContext ctx) {
-          final height = MediaQuery.of(ctx).size.height;
-          final width = MediaQuery.of(ctx).size.width;
+           size ??= MediaQuery.of(ctx).size;
+          final height = size!.height;
+          final width = size!.width;
 
           final confetti = Confetti(
             controller: controller,
@@ -119,7 +121,9 @@ class Confetti extends StatefulWidget {
     if (insertInOverlay != null) {
       insertInOverlay(overlayEntry);
     } else {
-      Overlay.of(context).insert(overlayEntry);
+      final overlay = Overlay.of(context);
+      size = overlay.context.size;
+      overlay.insert(overlayEntry);
     }
 
     return controller;
